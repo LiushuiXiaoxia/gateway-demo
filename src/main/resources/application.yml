@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8100
 
 spring:
   application:
@@ -17,6 +17,12 @@ spring:
             - Path=/meops_cmdb/**
           filters:
             - StripPrefix=1
+        - id: github
+          uri: https://github.com
+          predicates:
+            - Path=/github/**
+          filters:
+            - StripPrefix=1
 
 # 暴露端点
 management:
@@ -25,5 +31,13 @@ management:
       exposure:
         include: '*'
   endpoint:
+    metrics:
+      enabled: true
     health:
       show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    tags:
+      application: ${spring.application.name}
